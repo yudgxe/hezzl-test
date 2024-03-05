@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -15,8 +16,21 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
+var (
+	host string
+	port int
+)
+
+func init() {
+	flag.StringVar(&host, "host", "localhost", "clickhouse хост")
+	flag.IntVar(&port, "port", 9000, "clickhouse порт")
+
+	flag.Parse()
+}
+
 func main() {
-	db := ch.Connect(ch.WithDSN("clickhouse://localhost:9000/logs?sslmode=disable"))
+
+	db := ch.Connect(ch.WithDSN(fmt.Sprintf("clickhouse://%s:%d/logs?sslmode=disable", host, port)))
 	db.AddQueryHook(chdebug.NewQueryHook(
 		chdebug.WithEnabled(false),
 		chdebug.FromEnv("CHDEBUG"),

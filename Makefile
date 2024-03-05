@@ -18,7 +18,7 @@ generate: bin/sqlc bin/swag
 	go generate ./...
 
 .PHONY: migrate
-migrate:
+migrate: bin/goose
 	docker compose up -d
 	go run migrations/clickhouse/main.go db migrate
 	./bin/goose -dir migrations/postgres postgres "postgresql://postgres:postgres@localhost:5432/postgres?sslmode=disable" up

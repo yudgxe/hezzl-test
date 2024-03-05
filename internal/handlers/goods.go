@@ -248,7 +248,7 @@ func (e *RouterEnv) goodReprioritiize(g *gin.Context) {
 		return
 	}
 
-	updated, err := e.sql().Reset(g, sqlc.ResetParams{
+	updated, err := e.sql().ReprioritiizeGood(g, sqlc.ReprioritiizeGoodParams{
 		ID:        goodID,
 		ProjectID: projectID,
 		Priority:  int32(body.NewPriority),
